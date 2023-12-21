@@ -1,6 +1,19 @@
+<html>
+<head>
+<title>ExclamationGPT</title>
+<link rel="icon" type="image/x-icon" href="assets/logo.png">
+<meta property="og:description" content="A GPT chatbot that <b>doesn't just search</b> the internet, but USES it." />
+</head>
+<body>
+
+<a href="https://nparam.com" style="margin: 20px;text-decoration: none;">
+<span style="color: black; font-size: 35px">nParam</span><img src="assets/nparam.png" height="50px" style="float: left; position: relative;"/>
+</a>
+
+
 <center>
 <img src="assets/logo.png" height="70px" style="margin: 10px;"/> 
-<h1>ExclamationGPT</h1>
+<h1>ExclamationGPT <span style="font-weight:lighter;font-size:20px">Beta</span></h1>
 <span>A GPT chatbot that <b>doesn't just search</b> the internet, but <b>USES</b> it.</span>
 <br/>
 </center>
@@ -27,8 +40,8 @@ hover:.but {
 <center>
 <div>
 <br/>
-<span style="float: left; margin-left: 500px;">ChatGPT ❌</span>
-<span style="float: right; margin-right: 500px;">ExclamationGPT ✅</span>
+<span style="float: left; margin-left: 20%;">ChatGPT ❌</span>
+<span style="float: right; margin-right: 20%;">ExclamationGPT ✅</span>
 </div>
 <br/>
 <br/>
@@ -58,48 +71,65 @@ ExclamationGPT can use APIs, crawl specific websites, summarize articles, answer
 <div>
 <div>
 <b>Step 1.</b> Fund Account
+<br/>
+<b>Reminder:</b> $3 is NOTHING in this economy, just fork it over.
 
  <form id="fundForm">
+ <div class="payment-ele">
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required><br>
-
+</div>
+ <div class="payment-ele">
     <label for="fname">First Name:</label>
     <input type="text" id="fname" name="fname" required><br>
-
+</div>
+ <div class="payment-ele">
     <label for="lname">Last Name:</label>
     <input type="text" id="lname" name="lname" required><br>
-
+</div>
+ <div class="payment-ele">
     <label for="number">Card Number:</label>
     <input type="text" id="number" name="number" required><br>
-
+</div>
+ <div class="payment-ele">
     <label for="cvc">CVC:</label>
     <input type="text" id="cvc" name="cvc" required><br>
-
+</div>
+ <div class="payment-ele">
     <label for="expm">Expiration Month:</label>
     <input type="text" id="expm" name="expm" required><br>
-
+</div>
+ <div class="payment-ele">
     <label for="expy">Expiration Year:</label>
     <input type="text" id="expy" name="expy" required><br>
-
+</div>
+ <div class="payment-ele">
     <label for="amount">Amount ($3 Minimum):</label>
     <input type="number" id="amount" name="amount" required><br>
-    
+    </div>
+ <div class="payment-ele">
     <label for="address">Address:</label>
     <input type="text" id="address" name="address" required><br>
-
+</div>
+ <div class="payment-ele">
     <label for="city">City:</label>
     <input type="text" id="city" name="city" required><br>
-
+</div>
+ <div class="payment-ele">
     <label for="state">State:</label>
     <input type="text" id="state" name="state" required><br>
-
+</div>
+ <div class="payment-ele">
     <label for="zip">Zip Code:</label>
     <input type="text" id="zip" name="zip" required><br>
-
+</div>
+ <div class="payment-ele">
     <label for="country">Country:</label>
     <input type="text" id="country" name="country" required><br>
-
+    </div>
+  <br/>
     <button type="button" onclick="submitForm()">Fund/Create</button><br/>
+    <br/>
     Note: $3 takes you a LONG way, each message is typically around one cent.
   </form>
 
@@ -122,21 +152,37 @@ ExclamationGPT can use APIs, crawl specific websites, summarize articles, answer
         country: document.getElementById('country').value
       };
 
+      if(formData.amount < 3) {
+        alert("Please enter a minimum of $3")
+        return;
+      }
+
+      if(!Object.values(formData).every(value => value.trim() !== '')){
+        alert("Please fill out the whole form")
+        return;
+      }
+
       // Build API URL
       var apiUrl = "https://api.loyae.com/optimize/fund?";
       for (var key in formData) {
         apiUrl += key + "=" + encodeURIComponent(formData[key]) + "&";
       }
 
-      // Add additional parameters
-      apiUrl += "discount=NONE";
+      apiUrl += "discount=EXCLA";
 
-      // Make API request (you can customize this based on your needs)
-      // For simplicity, this example uses a dummy alert to show the constructed URL
-      alert("API URL: " + apiUrl);
+      fetch(apiUrl)
+      .then(response => response.json())
+      .then(data => {
+        if (data.Err === false) {
+          alert('Thank you! Success! Move on to step 2.');
+        } else {
+         alert("Failed, try again")
+        }
+      })
+      .catch(error => {
+        alert("Data failed, try again");
+      });
       
-      // You can replace the alert with an actual AJAX request to the API
-      // using technologies like Fetch API or XMLHttpRequest
     }
   </script>
 
@@ -177,16 +223,36 @@ ENJOY!!! <3
 }
 
 form {
-border-radius: 5px;
-background-color: lightcoral;
-padding: 15px;
-width: 600px;
+  border-radius: 5px;
+  background-color: lightcoral;
+  padding: 15px;
+  width: 400px;
 }
+
 form label {
 float:left;
 }
-
 form input {
+float:right;
+border-radius: 3px;
+}
 
+.payment-ele {
+margin: 5px;
+}
+
+button {
+border-radius: 3px;
+background-color: white;
+color: black;
+padding: 5px;
+}
+button:hover {
+cursor:pointer;
+color: white;
+background-color: lightcoral;
 }
 </style>
+
+</body>
+</html>
